@@ -6,7 +6,7 @@ public class BlueBoxController : MonoBehaviour
      public Renderer rendBoxBlue;
 
     public float minIntensity = 20f;
-    public float maxIntensity = 200f;
+    public float maxIntensity = 400f;
     public float speed = 4f;
     private Material mat;
     public Light pointLightBoxBlue;
@@ -41,16 +41,17 @@ public class BlueBoxController : MonoBehaviour
         float intensity = Mathf.Lerp(minIntensity, maxIntensity, t);
         pointLightBoxBlue.intensity= intensity;
         StartCoroutine(ChangingColor());
-        StartCoroutine(ChangingBool());
+        
 
        
     }
 
     IEnumerator ChangingColor()
     {
-        yield return new WaitForSeconds(3);
-
         _randomValue= Random.Range(0,6);
+        yield return new WaitForSeconds(5);
+
+        
         if(_randomValue <=3)
         {
             pointLightBoxBlue.color= Color.red;
@@ -64,10 +65,11 @@ public class BlueBoxController : MonoBehaviour
         }
 
         OnEnable= false;
+        StartCoroutine(ChangingBool());
     }
 
     IEnumerator ChangingBool()
-    { yield return new WaitForSeconds(30);
+    { yield return new WaitForSeconds(10);
         OnEnable=true;
         
     }
