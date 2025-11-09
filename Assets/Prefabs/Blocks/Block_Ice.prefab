@@ -187,7 +187,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  mode: 0
+  mode: 1
   bpm: 169
   subdivision: 1
   songOffsetSec: 0

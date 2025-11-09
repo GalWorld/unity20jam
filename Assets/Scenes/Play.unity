@@ -906,6 +906,7 @@ MonoBehaviour:
   pool: {fileID: 1027968502}
   bootstrapRows: 5
   spawnEverySeconds: 0.5
+  aheadRows: 10
   spawnDensity: 0.2
   iceDensity: 0.4
   normalPrefab: {fileID: 8673980796745774573, guid: f7a428bc86f8d8d4db4481d19725b395, type: 3}
