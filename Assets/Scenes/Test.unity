@@ -2457,7 +2457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShaderController
   dissolve: 0
-  morph: 0
+  morph: 1
   smoothSpeed: 5
 --- !u!4 &2102351385
 Transform:
