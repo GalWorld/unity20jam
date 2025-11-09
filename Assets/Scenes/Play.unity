@@ -894,8 +894,8 @@ MonoBehaviour:
   pool: {fileID: 1027968502}
   bootstrapRows: 5
   spawnEverySeconds: 0.5
-  spawnDensity: 0.1
-  iceDensity: 0.3
+  spawnDensity: 0.2
+  iceDensity: 0.4
   normalPrefab: {fileID: 8673980796745774573, guid: f7a428bc86f8d8d4db4481d19725b395, type: 3}
   icePrefab: {fileID: 4011327221405036741, guid: 77d96e28ad1b567438ba09cc6d84ffaa, type: 3}
   restPrefab: {fileID: 8201142304172417499, guid: 00747687de7c42f47a050537c9bc6ab3, type: 3}
@@ -1120,7 +1120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShaderController
   dissolve: 0
-  morph: 0
+  morph: 1
   smoothSpeed: 5
 --- !u!4 &1307265119
 Transform:
@@ -1367,9 +1367,52 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db71e1a908b36e74f917214deab9213e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VisualAudioController
+  m_EditorClassIdentifier: Assembly-CSharp::ChangeProperty
   master: 0
   vfx: {fileID: 212352706}
+  driveMasterFromMusicTime: 1
+  masterOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 3.1339283
+      outSlope: 3.1339283
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.26666668
+    - serializedVersion: 3
+      time: 0.02
+      value: 1
+      inSlope: -2.011509
+      outSlope: -2.011509
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.5465784
+    - serializedVersion: 3
+      time: 0.5489883
+      value: 0.6854235
+      inSlope: -1.5366813
+      outSlope: -1.5366813
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.06939495
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!82 &1763080630
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1758,6 +1801,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Block_Spawn
       objectReference: {fileID: 0}
+    - target: {fileID: 7702209142000659066, guid: a0dd3e82e6194c348926159d7bb76780, type: 3}
+      propertyPath: currentValue
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1927,6 +1974,14 @@ PrefabInstance:
     - target: {fileID: 4011327221405036741, guid: 77d96e28ad1b567438ba09cc6d84ffaa, type: 3}
       propertyPath: m_Name
       value: Block_Ice
+      objectReference: {fileID: 0}
+    - target: {fileID: 7283413798888388251, guid: 77d96e28ad1b567438ba09cc6d84ffaa, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: bdef17f21e8d1c84e83c032a68569b81, type: 2}
+    - target: {fileID: 7975098301548518706, guid: 77d96e28ad1b567438ba09cc6d84ffaa, type: 3}
+      propertyPath: currentValue
+      value: 0.008333334
       objectReference: {fileID: 0}
     - target: {fileID: 8047348344641335156, guid: 77d96e28ad1b567438ba09cc6d84ffaa, type: 3}
       propertyPath: m_LocalPosition.x

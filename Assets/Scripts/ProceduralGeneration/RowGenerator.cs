@@ -115,6 +115,7 @@ public class RowGenerator : MonoBehaviour
             if (ShouldSpawnHere(x, targetX, lastRow))
             {
                 string t = RollTypeId(rng, spawnDensity, iceDensity);
+                Debug.Log(t);
                 SpawnBlock(row, x, currentRowIndex, t);
                 fills++;
             }

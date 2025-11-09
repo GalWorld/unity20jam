@@ -58,6 +58,7 @@ public class BlockBase : MonoBehaviour
         owningRow?.OnBlockStepped(this);
         // owningRow?.generator?.SetSafeMode(false);
         // Add VFX/SFX here before despawn.
+        gameObject.GetComponentInChildren<ShaderToggleSmooth>().DisableSmooth();
         owningRow?.ScheduleDespawnAll(crumbleDelayOnStep);
     }
 

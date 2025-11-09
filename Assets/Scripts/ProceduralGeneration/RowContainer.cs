@@ -57,6 +57,6 @@ public class RowContainer : MonoBehaviour
         blocks.Clear();
 
         // Also disable this container 
-        gameObject.SetActive(false);
+        // gameObject.SetActive(false);
     }
 }

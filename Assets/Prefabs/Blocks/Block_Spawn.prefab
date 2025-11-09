@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5372391833734090843}
   - component: {fileID: -3930583504205570600}
   - component: {fileID: -4065407891323721911}
+  - component: {fileID: 7702209142000659066}
   m_Layer: 0
   m_Name: Block_Spawn
   m_TagString: Platform
@@ -132,6 +133,12 @@ MonoBehaviour:
   maxIntensity: 200
   speed: 4
   pointLightBoxBlue: {fileID: 2584097294291863}
+  spawnPrefabs:
+  - {fileID: 8981778437430934329, guid: 05490ae21b1a63c4c9a9479a4c34a329, type: 3}
+  - {fileID: 5450257829240290535, guid: e1d1a2197bc673f4c9a395498fdac4c7, type: 3}
+  - {fileID: 3630488078842974327, guid: 1328dc7fda4bcff49b162fb678d0a566, type: 3}
+  - {fileID: 6565005559063515565, guid: febd5adb1f22ba347a3c9f0a67084e7c, type: 3}
+  BoxBlue: {fileID: 2307492160209794204}
   OnEnable: 0
 --- !u!114 &-4065407891323721911
 MonoBehaviour:
@@ -151,6 +158,20 @@ MonoBehaviour:
   crumbleDelayOnStep: 2.5
   oneShot: 1
   consumeOnStep: 1
+--- !u!114 &7702209142000659066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6133838481393902290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c42b37e2458cc3740a70de3a45b5086f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShaderToggleSmooth
+  speed: 0.5
+  currentValue: 0
 --- !u!1 &7337240551117563848
 GameObject:
   m_ObjectHideFlags: 0

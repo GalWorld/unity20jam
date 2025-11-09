@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7283413798888388251}
   - component: {fileID: -8227724950129016659}
   - component: {fileID: -444384306338407244}
+  - component: {fileID: 7975098301548518706}
   m_Layer: 0
   m_Name: Block_Ice
   m_TagString: Untagged
@@ -70,7 +71,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c6becab13816f0f43859fdcd21c5ba66, type: 2}
+  - {fileID: 2100000, guid: bdef17f21e8d1c84e83c032a68569b81, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -132,6 +133,20 @@ MonoBehaviour:
   crumbleDelayOnStep: 2.5
   oneShot: 1
   extraQuickDespawn: -0.4
+--- !u!114 &7975098301548518706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4011327221405036741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c42b37e2458cc3740a70de3a45b5086f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShaderToggleSmooth
+  speed: 0.5
+  currentValue: 0
 --- !u!1 &6065099759657389218
 GameObject:
   m_ObjectHideFlags: 0

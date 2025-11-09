@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 7894205305391505934}
   - component: {fileID: 4076136438676035496}
   - component: {fileID: 8343490311001747289}
+  - component: {fileID: 1872230687157586018}
   m_Layer: 0
   m_Name: Block_Normal
   m_TagString: Untagged
@@ -311,3 +312,17 @@ MonoBehaviour:
   owningRow: {fileID: 0}
   crumbleDelayOnStep: 2.5
   oneShot: 1
+--- !u!114 &1872230687157586018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8673980796745774573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c42b37e2458cc3740a70de3a45b5086f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShaderToggleSmooth
+  speed: 0.5
+  currentValue: 0

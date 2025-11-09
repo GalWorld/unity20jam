@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ed0c6fc3a96e6d45953c0e088d38f83, type: 3}
   m_Name: Block_Spawn
   m_EditorClassIdentifier: Assembly-CSharp::BlockTypeDefSO
-  id: normal
+  id: spawn
   prefab: {fileID: 6133838481393902290, guid: a0dd3e82e6194c348926159d7bb76780, type: 3}
   isSlippery: 0
   isTrap: 0

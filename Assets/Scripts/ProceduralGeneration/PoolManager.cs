@@ -60,7 +60,8 @@ public class PoolManager : MonoBehaviour
             q = new Queue<GameObject>();
             _pools[prefab] = q;
         }
-        instance.SetActive(false);
+        // instance.SetActive(false);
+        instance.GetComponentInChildren<ShaderToggleSmooth>().DisableSmooth();
         instance.transform.SetParent(null); // or keep parent; your call
         q.Enqueue(instance);
     }
