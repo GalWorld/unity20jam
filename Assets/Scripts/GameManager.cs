@@ -8,6 +8,11 @@ public class GameManager : MonoBehaviour
 
     private bool _ending;
 
+    private void OnEnable() 
+    {
+        Time.timeScale = 1f;
+    }
+
     public void EndGame()
     {
         if (_ending) return;

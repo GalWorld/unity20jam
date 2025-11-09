@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using System.Collections;
 
 namespace StarterAssets
 {
@@ -61,26 +62,32 @@ namespace StarterAssets
             }
 
             _gameManager.EndGame();
+            // Defer the rest for 2 seconds (unaffected by Time.timeScale)
+            StartCoroutine(RespawnAfterDelay());
+        }
+
+        private IEnumerator RespawnAfterDelay()
+        {
+            // If EndGame() pauses the game (Time.timeScale = 0), use realtime wait
+            yield return new WaitForSecondsRealtime(2f);
 
             // Reset the player's position and rotation
             transform.position = _startingPosition;
-            transform.rotation = Quaternion.Euler(0f, 90f, 0f); // Reset player Y rotation to 90 degrees
+            transform.rotation = Quaternion.Euler(0f, 90f, 0f);
 
-
-            // Reset the CharacterController's vertical velocity to ensure the robot doesn't keep falling
+            // Re-enable CharacterController and clear vertical velocity
             if (_characterController != null)
             {
-                _characterController.enabled = true; // Enable it back after resetting position
+                _characterController.enabled = true;
                 ResetVerticalVelocity();
             }
 
             // Reset the camera's rotation
-            ThirdPersonController thirdPersonController = GetComponent<ThirdPersonController>();
+            var thirdPersonController = GetComponent<ThirdPersonController>();
             if (thirdPersonController != null)
-            {
-                thirdPersonController.ResetCameraRotation(90f); // Reset camera's Y rotation to 90 degrees
-            }
+                thirdPersonController.ResetCameraRotation(90f);
 
+            // Play SFX
             AudioSource.PlayClipAtPoint(respawnSound, transform.position);
         }
 
