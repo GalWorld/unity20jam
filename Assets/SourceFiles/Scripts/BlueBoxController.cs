@@ -13,6 +13,13 @@ public class BlueBoxController : MonoBehaviour
 
     private int _randomValue = 0;
     public bool OnEnable= false;
+
+    public GameObject _plusTone;
+    public GameObject _minusTone;
+
+    public Transform BoxBlue;
+    private float _heightOffset = 2.5f;
+
    
     
     void Start()
@@ -41,6 +48,7 @@ public class BlueBoxController : MonoBehaviour
         float intensity = Mathf.Lerp(minIntensity, maxIntensity, t);
         pointLightBoxBlue.intensity= intensity;
         StartCoroutine(ChangingColor());
+        OnEnable= false;
         
 
        
@@ -54,17 +62,21 @@ public class BlueBoxController : MonoBehaviour
         
         if(_randomValue <=3)
         {
+            Vector3 offset= new Vector3(BoxBlue.transform.position.x, BoxBlue.transform.position.y+ _heightOffset, BoxBlue.transform.position.z );
             pointLightBoxBlue.color= Color.red;
             StartCoroutine(OriginalColor());
+            Instantiate(_minusTone, offset,Quaternion.identity);
 
         }
         else
         {
+            Vector3 offset2= new Vector3(BoxBlue.transform.position.x, BoxBlue.transform.position.y+ _heightOffset, BoxBlue.transform.position.z);
             pointLightBoxBlue.color= Color.green;
             StartCoroutine(OriginalColor());
+            Instantiate(_plusTone, offset2, Quaternion.identity);
         }
 
-        OnEnable= false;
+        
         StartCoroutine(ChangingBool());
     }
 
