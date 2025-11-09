@@ -12,20 +12,36 @@ public class BlockBase : MonoBehaviour
     public RowContainer owningRow;       // set by generator when spawned
 
     [Header("Tuning")]
-    public float crumbleDelayOnStep = 1.35f;  // time until the *row* despawns after first step
+    public float crumbleDelayOnStep = 2.5f;  // time until the *row* despawns after first step
     public bool oneShot = true;               // prevent multiple triggers
 
     protected bool _stepped;
+
+    protected virtual void Awake()
+    {
+        // Find child colliders and make sure they relay to this parent.
+        var childColliders = GetComponentsInChildren<Collider>(includeInactive: true);
+        foreach (var col in childColliders)
+        {
+            if (col.gameObject == this.gameObject) continue; // skip parent (if any)
+            col.isTrigger = true;
+
+            var collider = col.GetComponent<Collider>();
+            if (collider == null) continue;
+
+            var relay = col.GetComponent<TriggerRelay>();
+            if (relay == null) relay = col.gameObject.AddComponent<TriggerRelay>();
+            relay.Init(this);
+        }
+    }
 
     protected virtual void OnEnable()
     {
         _stepped = false;
     }
 
-    protected virtual void OnTriggerEnter(Collider other)
+    public void OnChildTriggerEnter(Collider other)
     {
-        // Called when something enters our trigger. Use tag/layer to filter player.
-        // https://docs.unity3d.com/ScriptReference/Collider.OnTriggerEnter.html
         if (_stepped && oneShot) return;
         if (!other.CompareTag("Player")) return;
 
@@ -39,7 +55,9 @@ public class BlockBase : MonoBehaviour
     /// </summary>
     protected virtual void OnStepped(Collider player)
     {
-        // You can add VFX/SFX here before despawn.
+        owningRow?.OnBlockStepped(this);
+        // owningRow?.generator?.SetSafeMode(false);
+        // Add VFX/SFX here before despawn.
         owningRow?.ScheduleDespawnAll(crumbleDelayOnStep);
     }
 

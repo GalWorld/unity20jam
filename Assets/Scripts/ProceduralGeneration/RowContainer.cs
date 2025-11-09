@@ -8,6 +8,14 @@ using UnityEngine;
 public class RowContainer : MonoBehaviour
 {
     public int rowIndex;
+    public RowGenerator generator;
+    public bool isRestRow;
+
+    [Header("Score")]
+    public int rowPoints = 10;           // points awarded when row is first stepped
+    public IScoreSink scoreSink;         // set by RowGenerator
+    private bool _rowScored = false;
+
     public readonly List<BlockBase> blocks = new();
 
     private bool _despawnScheduled;
@@ -19,8 +27,19 @@ public class RowContainer : MonoBehaviour
         b.owningRow = this;
     }
 
+    public void OnBlockStepped(BlockBase source)
+    {
+        // Score once per row (first time any block in this row is stepped)
+        if (!_rowScored)
+        {
+            _rowScored = true;
+            scoreSink?.AddScore(rowPoints, this, source);
+        }
+    }
+
     public void ScheduleDespawnAll(float delay)
     {
+        if (isRestRow) return;
         if (_despawnScheduled) return;
         _despawnScheduled = true;
         _co = StartCoroutine(DespawnAllAfter(delay));

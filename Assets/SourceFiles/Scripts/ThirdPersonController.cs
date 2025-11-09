@@ -111,8 +111,6 @@ public bool IsRespawning { get; set; } = false;
 
         //CallOtherClasses
 
-        public OpenGround openGround;
-
 #if ENABLE_INPUT_SYSTEM 
         private PlayerInput _playerInput;
 #endif
@@ -320,24 +318,6 @@ private void Move()
         _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
     }
 }
-
-
-
-
-    
-
-       private void OnControllerColliderHit(ControllerColliderHit hit)
-{
-    
-
-    if (hit.gameObject.CompareTag("Platform"))
-    {
-        openGround._onPlatform= true;
-        
-    }
-}
-
-
 
         private void JumpAndGravity()
         {

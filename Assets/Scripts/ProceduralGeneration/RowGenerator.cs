@@ -1,10 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
 
 public class RowGenerator : MonoBehaviour
 {
+    [SerializeField] private bool _safeMode = false;
+
     [Header("Authoring")]
     [SerializeField] private LevelConfigSO config;
     [SerializeField] private Transform rowsRoot;
@@ -24,6 +27,8 @@ public class RowGenerator : MonoBehaviour
     [SerializeField] private GameObject icePrefab;
     [SerializeField] private GameObject restPrefab;   
     [SerializeField] private GameObject spawnPrefab;
+
+    [SerializeField] private ScoreSystem scoreSystem;
 
     private Random rng;
     private float _cellSizeX = 1f;
@@ -58,7 +63,7 @@ public class RowGenerator : MonoBehaviour
         StartCoroutine(SpawnLoop());
     }
 
-    private System.Collections.IEnumerator SpawnLoop()
+    private IEnumerator  SpawnLoop()
     {
         var wait = new WaitForSeconds(spawnEverySeconds);
         while (true)
@@ -68,11 +73,23 @@ public class RowGenerator : MonoBehaviour
         }
     }
 
+    public void SetSafeMode(bool value) => _safeMode = value;  
+    public bool IsSafeMode => _safeMode;
+
     public void GenerateNextRow()
     {
         currentRowIndex++;
 
         var row = GetRowContainer(currentRowIndex);
+
+        if (config.restPlatformEveryNRows > 0 &&
+            currentRowIndex > 0 &&
+            currentRowIndex % config.restPlatformEveryNRows == 0)
+        {
+            SpawnRestRow(row, currentRowIndex);
+            // Do not place normal/ice/spawn on this row; it's a full safe platform.
+            return;
+        }
 
         int targetX = ChooseTargetColumn(lastRow, rng, _prevTargetX);
         _prevTargetX = targetX;
@@ -160,6 +177,9 @@ public class RowGenerator : MonoBehaviour
         reused.rowIndex = rowIndex;
         reused.gameObject.SetActive(true);
         reused.blocks.Clear();
+        reused.generator = this;
+        reused.isRestRow = false;
+        reused.scoreSink = scoreSystem;
         float y = rowIndex * config.stepRiseY;   
         float z = rowIndex * config.stepRunZ;    
 
@@ -173,6 +193,19 @@ public class RowGenerator : MonoBehaviour
         return reused;
     }
 
+    private void SpawnRestRow(RowContainer row, int rowIndex)
+    {
+        // Spawn a full-width safe platform aligned with normal blocks (uses the same _cellSizeX/local layout)
+        for (int x = 0; x < config.width; x++)
+            SpawnBlock(row, x, rowIndex, "rest");
+
+        row.isRestRow = true;
+
+        // Update lastRow mask to all true for next-row reachability
+        lastRow = new bool[config.width];
+        for (int x = 0; x < config.width; x++) lastRow[x] = true;
+    }
+
     private void SpawnBlock(RowContainer row, int x, int y, string typeId)
     {
         GameObject prefab = typeId switch
@@ -184,7 +217,7 @@ public class RowGenerator : MonoBehaviour
         };
 
         Vector3 localPos = new Vector3(x * _cellSizeX, 0f, 0f);
-        var go = pool.Spawn(prefab, row.transform.TransformPoint(localPos), Quaternion.identity, row.transform);
+        var go = pool.Spawn(prefab, row.transform.TransformPoint(localPos), prefab.transform.rotation, row.transform);
         go.name = $"{typeId}_r{y}_x{x}";
         go.transform.localPosition = localPos;
 

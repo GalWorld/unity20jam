@@ -27,4 +27,4 @@ MonoBehaviour:
   pillarPenalty: 0.6
   holeBias: 0.15
   guaranteeClimbStep: 1
-  restPlatformEveryNRows: 15
+  restPlatformEveryNRows: 5
