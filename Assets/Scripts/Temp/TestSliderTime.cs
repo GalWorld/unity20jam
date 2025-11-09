@@ -3,15 +3,28 @@ using UnityEngine.UI;
 
 public class TestSliderTime : MonoBehaviour
 {
-    public Slider songSlider, pitchSlider;
-    void Start()
+    [SerializeField] private Image imageFill;
+
+    private void Start()
     {
-        songSlider.maxValue = MusicManager.instance.GetDuration();
+        if (imageFill == null)
+        {
+            Debug.LogError("TestSliderTime: No se asignó la imagen de fill.");
+            return;
+        }
     }
 
-    void Update()
+    private void Update()
     {
-        songSlider.value = MusicManager.instance.GetCurrentTimeSong();
-        pitchSlider.value = MusicManager.instance.GetPitch();
+        if (MusicManager.instance == null || imageFill == null) return;
+
+        float duration = MusicManager.instance.GetDuration();
+        float currentTime = MusicManager.instance.GetCurrentTimeSong();
+
+        if (duration <= 0f) return;
+
+        float fillValue = Mathf.Clamp01(currentTime / duration);
+
+        imageFill.fillAmount = fillValue;
     }
 }
