@@ -6,13 +6,20 @@ public class BlueBoxController : MonoBehaviour
      public Renderer rendBoxBlue;
 
     public float minIntensity = 20f;
-    public float maxIntensity = 200f;
+    public float maxIntensity = 400f;
     public float speed = 4f;
     private Material mat;
     public Light pointLightBoxBlue;
 
     private int _randomValue = 0;
     public bool OnEnable= false;
+
+    public GameObject _plusTone;
+    public GameObject _minusTone;
+
+    public Transform BoxBlue;
+    private float _heightOffset = 2.5f;
+
    
     
     void Start()
@@ -41,33 +48,40 @@ public class BlueBoxController : MonoBehaviour
         float intensity = Mathf.Lerp(minIntensity, maxIntensity, t);
         pointLightBoxBlue.intensity= intensity;
         StartCoroutine(ChangingColor());
-        StartCoroutine(ChangingBool());
+        OnEnable= false;
+        
 
        
     }
 
     IEnumerator ChangingColor()
     {
-        yield return new WaitForSeconds(3);
-
         _randomValue= Random.Range(0,6);
+        yield return new WaitForSeconds(5);
+
+        
         if(_randomValue <=3)
         {
+            Vector3 offset= new Vector3(BoxBlue.transform.position.x, BoxBlue.transform.position.y+ _heightOffset, BoxBlue.transform.position.z );
             pointLightBoxBlue.color= Color.red;
             StartCoroutine(OriginalColor());
+            Instantiate(_minusTone, offset,Quaternion.identity);
 
         }
         else
         {
+            Vector3 offset2= new Vector3(BoxBlue.transform.position.x, BoxBlue.transform.position.y+ _heightOffset, BoxBlue.transform.position.z);
             pointLightBoxBlue.color= Color.green;
             StartCoroutine(OriginalColor());
+            Instantiate(_plusTone, offset2, Quaternion.identity);
         }
 
-        OnEnable= false;
+        
+        StartCoroutine(ChangingBool());
     }
 
     IEnumerator ChangingBool()
-    { yield return new WaitForSeconds(30);
+    { yield return new WaitForSeconds(10);
         OnEnable=true;
         
     }
