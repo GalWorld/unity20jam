@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using UnityEngine;
 
 public class PanelAnimator : MonoBehaviour
@@ -6,6 +7,9 @@ public class PanelAnimator : MonoBehaviour
 
     public void ShowPanel() => panelAnimator.PlayEnter();
     public void HidePanel() => panelAnimator.PlayExit();
+    private void OnEnable() {
+        panelAnimator.PlayEnter();
+    }
 
     public void GoToScene(string sceneName)
     {

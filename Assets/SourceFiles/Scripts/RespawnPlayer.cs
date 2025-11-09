@@ -7,7 +7,7 @@ namespace StarterAssets
     public class RespawnPlayer : MonoBehaviour
     {
         [Tooltip("The Y position threshold at which the player will respawn.")]
-        public float yThreshold = -5f; 
+        public float yThreshold = -5f;
 
         private Vector3 _startingPosition;
 
@@ -19,6 +19,7 @@ namespace StarterAssets
 
         private ThirdPersonController _thirdPersonController;
         public AudioClip respawnSound;
+        [SerializeField] private GameManager _gameManager;
 
 
         private void Start()
@@ -58,10 +59,13 @@ namespace StarterAssets
             {
                 _characterController.enabled = false; // Disable to reset position/rotation correctly
             }
+
+            _gameManager.EndGame();
+
             // Reset the player's position and rotation
             transform.position = _startingPosition;
             transform.rotation = Quaternion.Euler(0f, 90f, 0f); // Reset player Y rotation to 90 degrees
-            
+
 
             // Reset the CharacterController's vertical velocity to ensure the robot doesn't keep falling
             if (_characterController != null)
