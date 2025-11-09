@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: _gameManager
       value: 
       objectReference: {fileID: 1707247863}
+    - target: {fileID: 1764945173950795790, guid: 332df604d1fc7fd46ae4013ce9b4a5d6, type: 3}
+      propertyPath: cursorLocked
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1804703078109025515, guid: 332df604d1fc7fd46ae4013ce9b4a5d6, type: 3}
       propertyPath: m_Name
       value: PlayerRobot
