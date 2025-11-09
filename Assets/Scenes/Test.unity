@@ -1335,6 +1335,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ChangeProperty
   master: 0
   vfx: {fileID: 204436949}
+  driveMasterFromMusicTime: 1
+  masterOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 3.1339283
+      outSlope: 3.1339283
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.26666668
+    - serializedVersion: 3
+      time: 0.02
+      value: 1
+      inSlope: -2.011509
+      outSlope: -2.011509
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.5465784
+    - serializedVersion: 3
+      time: 0.5489883
+      value: 0.6854235
+      inSlope: -1.5366813
+      outSlope: -1.5366813
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.06939495
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1313971860
 GameObject:
   m_ObjectHideFlags: 0
@@ -2457,7 +2500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShaderController
   dissolve: 0
-  morph: 1
+  morph: 0
   smoothSpeed: 5
 --- !u!4 &2102351385
 Transform:
@@ -3190,6 +3233,7 @@ GameObject:
   - component: {fileID: 370352085985126579}
   - component: {fileID: 8450368722720160549}
   - component: {fileID: 8450368722720160550}
+  - component: {fileID: 8450368722720160551}
   m_Layer: 0
   m_Name: 04_Box_Red
   m_TagString: Untagged
@@ -4388,6 +4432,20 @@ MonoBehaviour:
   sensitivity: 1.6
   energyWindow: 1024
   pulseWidth: 0.1
+--- !u!114 &8450368722720160551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997720862736505487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c42b37e2458cc3740a70de3a45b5086f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShaderToggleSmooth
+  speed: 1
+  currentValue: 1
 --- !u!4 &8478943806253843060
 Transform:
   m_ObjectHideFlags: 0
