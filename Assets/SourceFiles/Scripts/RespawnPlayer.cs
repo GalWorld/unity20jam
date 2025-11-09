@@ -20,6 +20,13 @@ namespace StarterAssets
         private ThirdPersonController _thirdPersonController;
         public AudioClip respawnSound;
 
+        private OpenGround openGround;
+
+        private void Awake()
+        {
+            openGround= FindFirstObjectByType<OpenGround>();
+        }
+
 
         private void Start()
 {
@@ -58,10 +65,11 @@ namespace StarterAssets
     {
         _characterController.enabled = false; // Disable to reset position/rotation correctly
     }
-
+    openGround._onPlatform= false;
     // Reset the player's position and rotation
     transform.position = _startingPosition;
     transform.rotation = Quaternion.Euler(0f, 90f, 0f); // Reset player Y rotation to 90 degrees
+    
 
     // Reset the CharacterController's vertical velocity to ensure the robot doesn't keep falling
     if (_characterController != null)
