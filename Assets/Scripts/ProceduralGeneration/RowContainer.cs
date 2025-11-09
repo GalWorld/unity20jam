@@ -34,6 +34,7 @@ public class RowContainer : MonoBehaviour
         {
             _rowScored = true;
             scoreSink?.AddScore(rowPoints, this, source);
+            generator?.SetPlayerRow(rowIndex);
         }
     }
 

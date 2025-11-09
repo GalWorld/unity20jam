@@ -19,10 +19,6 @@ public class LevelConfigSO : ScriptableObject
     [Tooltip("Optional lateral nudge per row to emphasize the zig-zag feel. 0 = disabled.")]
     public float stepLateralNudgeX = 0f;
 
-    [Header("Densities (0..1)")]
-    [Range(0f, 1f)] public float trapDensity = 0.1f;
-    [Range(0f, 1f)] public float iceDensity = 0.15f;
-
     [Header("Stair / Fill Policy")]
     [Range(0f, 1f)] public float globalFillChance = 0.45f;   
     [Range(0f, 1f)] public float keepClearRadius = 1f;        // cells near target kept mostly clear

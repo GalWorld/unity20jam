@@ -13,27 +13,17 @@ public class BlueBoxController : MonoBehaviour
     public Light pointLightBoxBlue;
 
     [Header("Spawn")]
+    [SerializeField] private float spawnDelay = 1f;
     public List<GameObject> spawnPrefabs = new List<GameObject>(); 
 
     public Transform BoxBlue;
     private float _heightOffset = 2.5f;
 
-    // Drive effect
-    public bool OnEnable = false;
-
     private void Start()
     {
         mat = rendBoxBlue.material;
         pointLightBoxBlue.color = Color.yellow;
-        StartCoroutine(ChangingBool());
-    }
-
-    private void Update()
-    {
-        if (OnEnable)
-        {
-            LightChangeColor();
-        }
+        LightChangeColor();
     }
 
     void LightChangeColor()
@@ -45,13 +35,12 @@ public class BlueBoxController : MonoBehaviour
 
         // Start color/spawn routine and reset flag
         StartCoroutine(ChangingColor());
-        OnEnable = false;
     }
 
     IEnumerator ChangingColor()
     {
         // Wait before deciding which prefab to spawn
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(spawnDelay);
 
         // Safety: if list is empty, just restore color and exit
         if (spawnPrefabs == null || spawnPrefabs.Count == 0)
@@ -85,18 +74,11 @@ public class BlueBoxController : MonoBehaviour
 
         // Restore color after a while and re-arm the trigger
         StartCoroutine(OriginalColor());
-        StartCoroutine(ChangingBool());
-    }
-
-    IEnumerator ChangingBool()
-    {
-        yield return new WaitForSeconds(10f);
-        OnEnable = true;
     }
 
     IEnumerator OriginalColor()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
         pointLightBoxBlue.color = Color.yellow;
     }
 }

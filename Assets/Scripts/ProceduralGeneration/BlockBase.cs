@@ -56,7 +56,7 @@ public class BlockBase : MonoBehaviour
     protected virtual void OnStepped(Collider player)
     {
         owningRow?.OnBlockStepped(this);
-        // owningRow?.generator?.SetSafeMode(false);
+        owningRow?.generator?.SetSafeMode(false);
         // Add VFX/SFX here before despawn.
         gameObject.GetComponentInChildren<ShaderToggleSmooth>().DisableSmooth();
         owningRow?.ScheduleDespawnAll(crumbleDelayOnStep);

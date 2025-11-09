@@ -18,13 +18,11 @@ MonoBehaviour:
   stepRiseY: 2
   stepRunZ: 2
   stepLateralNudgeX: 0
-  trapDensity: 0.1
-  iceDensity: 0.15
-  globalFillChance: 0.45
+  globalFillChance: 0.602
   keepClearRadius: 1
   wiggleSideChance: 0.55
-  maxFillPerRow: 3
+  maxFillPerRow: 4
   pillarPenalty: 0.6
   holeBias: 0.15
   guaranteeClimbStep: 1
-  restPlatformEveryNRows: 5
+  restPlatformEveryNRows: 20

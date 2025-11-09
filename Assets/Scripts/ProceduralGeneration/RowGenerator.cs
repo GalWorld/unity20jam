@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using UnityEngine;
 using Random = System.Random;
 
@@ -16,6 +17,7 @@ public class RowGenerator : MonoBehaviour
     [Header("Spawn Loop")]
     [SerializeField] private int bootstrapRows = 12;
     [SerializeField] private float spawnEverySeconds = 0.35f;
+    [SerializeField] private int aheadRows = 10;
 
     [Header("Densities (0..1)")]
     [Range(0f, 1f)] [SerializeField] private float spawnDensity = 0.08f; 
@@ -34,6 +36,7 @@ public class RowGenerator : MonoBehaviour
     private float _cellSizeX = 1f;
     private bool[] lastRow;
     private int currentRowIndex = -1;
+    private int playerRow = 0;
     private int _prevTargetX = -1;
 
 
@@ -63,18 +66,19 @@ public class RowGenerator : MonoBehaviour
         StartCoroutine(SpawnLoop());
     }
 
-    private IEnumerator  SpawnLoop()
+    private IEnumerator SpawnLoop()
     {
         var wait = new WaitForSeconds(spawnEverySeconds);
         while (true)
         {
-            GenerateNextRow();
+            if (currentRowIndex < playerRow + aheadRows)
+            {
+                GenerateNextRow();
+            }
+
             yield return wait;
         }
     }
-
-    public void SetSafeMode(bool value) => _safeMode = value;  
-    public bool IsSafeMode => _safeMode;
 
     public void GenerateNextRow()
     {
@@ -115,7 +119,6 @@ public class RowGenerator : MonoBehaviour
             if (ShouldSpawnHere(x, targetX, lastRow))
             {
                 string t = RollTypeId(rng, spawnDensity, iceDensity);
-                Debug.Log(t);
                 SpawnBlock(row, x, currentRowIndex, t);
                 fills++;
             }
@@ -217,7 +220,7 @@ public class RowGenerator : MonoBehaviour
             _ => normalPrefab
         };
 
-        Vector3 localPos = new Vector3(x * _cellSizeX, 0f, 0f);
+        Vector3 localPos = new Vector3(x * (_cellSizeX * 2), 0f, 0f);
         var go = pool.Spawn(prefab, row.transform.TransformPoint(localPos), prefab.transform.rotation, row.transform);
         go.name = $"{typeId}_r{y}_x{x}";
         go.transform.localPosition = localPos;
@@ -263,11 +266,11 @@ public class RowGenerator : MonoBehaviour
         return candidates[r.Next(0, candidates.Count)];
     }
 
-    private string RollTypeId(Random r, float damageD, float iceD)
+    private string RollTypeId(Random r, float spawnD, float iceD)
     {
         double roll = r.NextDouble();
-        if (roll < damageD) return "damage";
-        if (roll < damageD + iceD) return "ice";
+        if (roll < spawnD) return "spawn";
+        if (roll < spawnD + iceD) return "ice";
         return "normal";
     }
 
@@ -302,4 +305,15 @@ public class RowGenerator : MonoBehaviour
         Destroy(temp);
         return width;
     }
+
+    private void SetIfGreater(ref int target, int candidate)
+    {
+        if (candidate > target) target = candidate;
+    }
+    public void SetPlayerRow(int rowIndex)
+    {
+        SetIfGreater(ref playerRow, rowIndex);
+    }
+    public void SetSafeMode(bool value) => _safeMode = value;
+    public bool IsSafeMode => _safeMode;
 }

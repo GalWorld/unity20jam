@@ -7,14 +7,8 @@ public class SpawnBlock : BlockBase
 
     protected override void OnStepped(Collider player)
     {
-        // Example: request a buff/debuff spawn (replace with your item system)
-        // ItemSpawner.Instance?.SpawnRandomAt(transform.position);
-
-        if (consumeOnStep)
-        {
-            // Despawn only this block (not entire row)
-            ReturnToPool();
-        }
-        // Do NOT schedule row despawn here unless you want it to vanish too.
+        if (owningRow != null)
+            owningRow.ScheduleDespawnAll(Mathf.Max(0.1f, crumbleDelayOnStep));
+        base.OnStepped(player);
     }
 }
