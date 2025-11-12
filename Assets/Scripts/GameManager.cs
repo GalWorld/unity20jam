@@ -1,21 +1,30 @@
 using UnityEngine;
 using System.Collections;
 
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject feedbackPanel;
+    [SerializeField] private GameObject _timeBar;
+    [SerializeField] private GameObject _scoreText;
     [SerializeField] private float dissolveDuration = 1.2f; 
 
     private bool _ending;
 
+
     private void OnEnable() 
     {
         Time.timeScale = 1f;
+        _timeBar.SetActive(true);
+        _scoreText.SetActive(true);
+        
     }
 
     public void EndGame()
     {
         if (_ending) return;
+        _timeBar.SetActive(false);
+        _scoreText.SetActive(false);
         StartCoroutine(EndGameRoutine());
     }
 
@@ -40,6 +49,7 @@ public class GameManager : MonoBehaviour
         if (feedbackPanel != null)
             feedbackPanel.SetActive(true);
 
-        Time.timeScale = 0f; 
+        yield return new WaitForSecondsRealtime(0.3f);
+        Time.timeScale = 0f;
     }
 }

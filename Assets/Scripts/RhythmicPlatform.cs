@@ -1,12 +1,11 @@
 using UnityEngine;
 
-public class RhythmicPlatform: MonoBehaviour
+public class RhythmicPlatform : MonoBehaviour
 {
     public enum SyncMode { BPM, Auto }
-    
 
     [Header("Movement")]
-    public float amplitude = 2f;                 
+    public float amplitude = 2f;
     public float smoothness = 8f;
     public float speed = 1;
     public Vector3 direction = Vector3.right;
@@ -16,14 +15,14 @@ public class RhythmicPlatform: MonoBehaviour
 
     [Header("For BPM Mode")]
     public float bpm = 169f;
-    [Range(1, 8)] public int subdivision = 1;    
-    public float songOffsetSec = 0f;             
-    public bool useSamplesForTime = true;        
+    [Range(1, 8)] public int subdivision = 1;
+    public float songOffsetSec = 0f;
+    public bool useSamplesForTime = true;
 
     [Header("For AUTO Mode")]
-    public float minInterval = 0.2f;             
-    public float sensitivity = 1.6f;             
-    public int energyWindow = 1024;              
+    public float minInterval = 0.2f;
+    public float sensitivity = 1.6f;
+    public int energyWindow = 1024;
     public float pulseWidth = 0.10f;
 
     private AudioSource audioSource;
@@ -36,14 +35,18 @@ public class RhythmicPlatform: MonoBehaviour
     void Start()
     {
         audioSource = MusicManager.instance.GetSong();
-        if (!audioSource.clip)
+        if (!audioSource || !audioSource.clip)
         {
-            Debug.LogError("[MoveWithBeatPro] Asigna un AudioSource con clip.");
+            Debug.LogError("[RhythmicPlatform] Falta AudioSource o clip asignado.");
             enabled = false; return;
         }
 
         initialPos = transform.position;
-        beatInterval = 60f / Mathf.Max(1f, bpm) / Mathf.Max(1, subdivision);
+
+        // Protección adicional contra bpm o subdivision inválidos
+        float safeBpm = Mathf.Max(0.001f, Mathf.Abs(bpm));
+        int safeSub = Mathf.Max(1, subdivision);
+        beatInterval = 60f / safeBpm / safeSub;
 
         sampleBuf = new float[Mathf.Max(256, energyWindow)];
     }
@@ -53,7 +56,7 @@ public class RhythmicPlatform: MonoBehaviour
         if (!audioSource.isPlaying) return;
 
         double songTime = GetSongTime();
-        speed = audioSource.volume;
+        speed = Mathf.Max(0.0001f, audioSource.volume); // Evita multiplicar por 0
 
         float pulse = 0f;
         if (mode == SyncMode.BPM)
@@ -67,12 +70,17 @@ public class RhythmicPlatform: MonoBehaviour
         }
         else
         {
+            if (sampleBuf == null || sampleBuf.Length == 0)
+                sampleBuf = new float[Mathf.Max(256, energyWindow)];
+
             audioSource.GetOutputData(sampleBuf, 0);
 
             float rms = 0f;
-            for (int i = 0; i < energyWindow && i < sampleBuf.Length; i++)
+            int limit = Mathf.Min(energyWindow, sampleBuf.Length);
+            for (int i = 0; i < limit; i++)
                 rms += sampleBuf[i] * sampleBuf[i];
-            rms = Mathf.Sqrt(rms / Mathf.Max(1, Mathf.Min(energyWindow, sampleBuf.Length)));
+
+            rms = Mathf.Sqrt(rms / Mathf.Max(1, limit));
 
             float threshold = EnergyTracker.Update(rms) * sensitivity;
 
@@ -97,7 +105,8 @@ public class RhythmicPlatform: MonoBehaviour
     {
         if (useSamplesForTime && audioSource.clip)
         {
-            return audioSource.timeSamples / audioSource.clip.frequency;
+            float freq = Mathf.Max(1f, audioSource.clip.frequency);
+            return audioSource.timeSamples / freq;
         }
         else
         {
@@ -116,3 +125,4 @@ public class RhythmicPlatform: MonoBehaviour
         }
     }
 }
+

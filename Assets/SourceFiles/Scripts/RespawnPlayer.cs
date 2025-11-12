@@ -21,6 +21,7 @@ namespace StarterAssets
         private ThirdPersonController _thirdPersonController;
         public AudioClip respawnSound;
         [SerializeField] private GameManager _gameManager;
+        [SerializeField] private SceneManagerController sceneManagerController;
 
 
         private void Start()
@@ -28,6 +29,7 @@ namespace StarterAssets
             // Save the starting position and rotation
             _startingPosition = transform.position;
             _startingRotation = transform.rotation;
+            sceneManagerController= FindFirstObjectByType<SceneManagerController>();
 
             // Get the CharacterController reference
             _characterController = GetComponent<CharacterController>();
@@ -42,6 +44,8 @@ namespace StarterAssets
             {
                 Debug.LogError("ThirdPersonController component is required for RespawnPlayer!");
             }
+
+
         }
 
         private void Update()
@@ -61,13 +65,15 @@ namespace StarterAssets
                 _characterController.enabled = false; // Disable to reset position/rotation correctly
             }
 
-            _gameManager.EndGame();
+            
             // Defer the rest for 2 seconds (unaffected by Time.timeScale)
             StartCoroutine(RespawnAfterDelay());
         }
 
         private IEnumerator RespawnAfterDelay()
         {
+           
+            _gameManager.EndGame();
             // If EndGame() pauses the game (Time.timeScale = 0), use realtime wait
             yield return new WaitForSecondsRealtime(2f);
 
@@ -88,7 +94,9 @@ namespace StarterAssets
                 thirdPersonController.ResetCameraRotation(90f);
 
             // Play SFX
-            AudioSource.PlayClipAtPoint(respawnSound, transform.position);
+                //AudioSource.PlayClipAtPoint(respawnSound, transform.position);
+    
+                
         }
 
         private void ResetVerticalVelocity()
